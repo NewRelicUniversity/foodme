@@ -16,18 +16,19 @@
   ],
   "main": "server/start.js",
   "scripts": {
-    "start": "node server/start.js"
+    "start": "node --env-file=.env server/start.js"
   },
   "dependencies": {
     "body-parser": "^1.20.0",
     "csv": ">=0.2.1",
     "express": ">=3.0.0",
     "morgan": "^1.10.0",
+    "newrelic": "^12.1.1",
     "open": "^8.4.2",
     "pino": "^8.7.0"
   },
-  "engines" : { 
-    "node": ">=20.14.0" 
+  "engines": {
+    "node": ">=20.14.0"
   },
   "license": "MIT"
 }
