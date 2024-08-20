@@ -42,7 +42,7 @@ exports.start = function(PORT, STATIC_DIR, DATA_FILE, TEST_DIR) {
 
   // API
   app.get(API_URL, function(req, res, next) {
-    res.send(200, storage.getAll().map(removeMenuItems));
+    res.status(200).send(storage.getAll().map(removeMenuItems));
   });
 
   app.post(API_URL, function(req, res, next) {
@@ -51,10 +51,10 @@ exports.start = function(PORT, STATIC_DIR, DATA_FILE, TEST_DIR) {
 
     if (restaurant.validate(errors)) {
       storage.add(restaurant);
-      return res.send(201, restaurant);
+      return res.status(201).send(restaurant);
     }
 
-    return res.send(400, {error: errors});
+    return res.status(400).send({error: errors});
   });
 
   app.post(API_URL_ORDER, jsonParser, function(req, res, next) {
@@ -79,15 +79,15 @@ exports.start = function(PORT, STATIC_DIR, DATA_FILE, TEST_DIR) {
     });
     /*************************************/
 
-    return res.send(201, { orderId: Date.now()});
+    return res.status(201).send({orderId: Date.now()});
   });
 
   app.get(API_URL_ID, function(req, res, next) {
     var restaurant = storage.getById(req.params.id);
     if (restaurant) {
-      return res.send(200, restaurant);
+      return res.status(200).send(restaurant);
     }
-    return res.send(400, {error: 'No restaurant with id "' + req.params.id + '"!'});
+    return res.status(400).send({error: 'No restaurant with id "' + req.params.id + '"!'});
   });
 
   app.put(API_URL_ID, function(req, res, next) {
@@ -96,23 +96,23 @@ exports.start = function(PORT, STATIC_DIR, DATA_FILE, TEST_DIR) {
 
     if (restaurant) {
       restaurant.update(req.body);
-      return res.send(200, restaurant);
+      return res.status(200).send(restaurant);
     }
 
     restaurant = new RestaurantRecord(req.body);
     if (restaurant.validate(errors)) {
       storage.add(restaurant);
-      return res.send(201, restaurant);
+      return res.status(201).send(restaurant);
     }
 
-    return res.send(400, {error: errors});
+    return res.status(400).send({error: errors});
   });
 
-  app.del(API_URL_ID, function(req, res, next) {
+  app.delete(API_URL_ID, function(req, res, next) {
     if (storage.deleteById(req.params.id)) {
-      return res.send(204, null);
+      return res.status(204).send(null);
     }
-    return res.send(400, {error: 'No restaurant with id "' + req.params.id + '"!'});
+    return res.status(400).send({error: 'No restaurant with id "' + req.params.id + '"!'});
   });
 
   // read the data from json and start the server
@@ -137,5 +137,4 @@ exports.start = function(PORT, STATIC_DIR, DATA_FILE, TEST_DIR) {
       });
     });
   } catch (e) {}
-
 };
