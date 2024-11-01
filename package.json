@@ -16,7 +16,8 @@
   ],
   "main": "server/start.js",
   "scripts": {
-    "start": "node --env-file=.env server/start.js"
+    "start": "node --env-file=.env server/start.js",
+    "stop": "pkill --signal SIGINT node"    
   },
   "dependencies": {
     "body-parser": "^1.20.0",
